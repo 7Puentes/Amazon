@@ -119,9 +119,15 @@ def save_tif_in_binary(train_data_dir, rows_dict, binary_dir_files):
     #print count
 
 
-unzip_file(train_input_dir_zip, train_input_dir_unzip)
-untar_file(train_data_dir_tar,train_data_dir_untar)
-untar_file(train_data_dir_tar,train_data_dir_untar)
-rows_dict = tif_with_tags(train_input_dir)
-save_tif_in_binary(train_data_dir, rows_dict,binary_dir_files)
-zipdir(binary_dir_files,binary_dir_files+".zip" )
+if __name__ == '__main__':
+
+    #unzip_file(train_input_dir_zip, train_input_dir_unzip)
+    #untar_file(train_data_dir_tar,train_data_dir_untar)
+    #untar_file(train_data_dir_tar,train_data_dir_untar)
+    train_data_dir = "/Users/Charly/Downloads/train-tif-sample/"
+    binary_dir_files = "/Users/Charly/Downloads/train-bin-sample/"
+    train_input_dir = "/Users/Charly/Downloads/train.csv"
+
+    rows_dict = tif_with_tags(train_input_dir)
+    save_tif_in_binary(train_data_dir, rows_dict,binary_dir_files)
+    #zipdir(binary_dir_files,binary_dir_files+".zip" )
