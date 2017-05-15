@@ -63,14 +63,14 @@ def tif_with_tags(train_input_dir):
 #*******************************************************************#
 # Toma como input una lista de numeros del 0 al 16 que representan  #
 # a los labels                                                      #
-# Retorna dos bytes donde los bits encendidos son las posiciones    #
+# Retorna tres bytes donde los bits encendidos son las posiciones   #
 # de los tags                                                       #
 #   Ej: [0, 3] son los labels                                       #
-#       retorna 9 (00000000000000000000000000001001)                #                                       #
+#       retorna 9 (000000000000000000001001)                        #                                       #
 #*******************************************************************#
 def get_binary_labels(labels):
-    # necesitamos minimo 2 bytes porque son 17 tags posibles (se mepean del 0 al 16)
-    binary_labels = int('00000000000000000000000000000000',2)
+    # necesitamos minimo 3 bytes porque son 17 tags posibles (se mepean del 0 al 16)
+    binary_labels = int('000000000000000000000000',2)
     for l in labels:
         binary_labels = binary_labels | (2**l) # or entre lo que ya tengo y si enciendo o no otro bit segun la posicion
     return binary_labels
@@ -97,18 +97,20 @@ def save_tif_in_binary(train_data_dir, rows_dict, binary_dir_files):
             try:
                 name = f.replace(".tif","")
                 binary_name_file = binary_dir_files + "/" + name
-                output = open(binary_name_file, "wb")
+                
                 ds = gdal.Open(train_data_dir + f)
+                output = open(binary_name_file, "wb")
+                labels = rows_dict[name]  
+                binary_labels = get_binary_labels(labels)              
+
+                output.write(np.array(binary_labels,dtype=np.uint16))
 
                 output.write(ds.GetRasterBand(1).ReadAsArray())
                 output.write(ds.GetRasterBand(2).ReadAsArray())
                 output.write(ds.GetRasterBand(3).ReadAsArray())
                 output.write(ds.GetRasterBand(4).ReadAsArray())
 
-                labels = rows_dict[name]  
-                binary_labels = get_binary_labels(labels)              
-
-                output.write(np.array(binary_labels,dtype=np.uint16))
+                
                 output.close()
 
                 #print "Converted %s" % f
