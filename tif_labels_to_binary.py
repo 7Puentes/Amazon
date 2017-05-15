@@ -124,6 +124,7 @@ if __name__ == '__main__':
     #unzip_file(train_input_dir_zip, train_input_dir_unzip)
     #untar_file(train_data_dir_tar,train_data_dir_untar)
     #untar_file(train_data_dir_tar,train_data_dir_untar)
+
     train_data_dir = "/Users/Charly/Downloads/train-tif-sample/"
     binary_dir_files = "/Users/Charly/Downloads/train-bin-sample/"
     train_input_dir = "/Users/Charly/Downloads/train.csv"
